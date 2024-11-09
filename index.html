@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Catch Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #0d38c7;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            color: #ecf0f1;
+        }
+
+        .game-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            background-color: #2c3e50;
+            border: 2px solid #ecf0f1;
+            overflow: hidden;
+        }
+
+        .button {
+            position: absolute;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            border: none;
+            color: #ecf0f1;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.1s ease-in-out;
+        }
+
+        /* ფეიკ ღილაკის სპეციალური სტილი */
+        .fake-button {
+            background-color: #e74c3c; /* წითელი ფერი */
+            border-radius: 50%; /* მიტის ფორმა */
+            padding: 15px 30px;
+            font-size: 1.1em;
+            transform: rotate(-10deg); /* მიტის ეფექტი */
+        }
+
+        .fake-button:hover {
+            transform: rotate(10deg); /* მიტის გადახვევა */
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 1.2em;
+        }
+
+        #game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: #ecf0f1;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div id="score">Score: 0</div>
+        <div id="game-over">Game Over! Click to Restart</div>
+    </div>
+
+    <script>
+        const gameContainer = document.querySelector('.game-container');
+        const scoreElement = document.getElementById('score');
+        const gameOverElement = document.getElementById('game-over');
+        let score = 0;
+        let gameInterval;
+        let isGameOver = false;
+
+        // ღილაკის შექმნა
+        function createFallingButton() {
+            if (isGameOver) return;
+
+            const button = document.createElement('button');
+            button.classList.add('button');
+            button.style.left = Math.floor(Math.random() * 350) + 'px'; // შემთხვევითი პოზიცია
+            const isFake = Math.random() < 0.2; // 20% შანსი რომ იყოს ფეიკი ღილაკი
+            button.textContent = isFake ? 'Fake!' : 'Catch Me!';
+
+            if (isFake) {
+                button.classList.add('fake-button');
+            }
+
+            gameContainer.appendChild(button);
+
+            // ღილაკის ჩამოვარდნის ანიმაცია
+            let buttonInterval = setInterval(() => {
+                let buttonTop = parseInt(window.getComputedStyle(button).getPropertyValue('top'));
+                if (buttonTop > 600) {
+                    // თუ ღილაკი ბოლოში დაეცა, წავშალოთ და გავაჩეროთ ინტერვალი
+                    clearInterval(buttonInterval);
+                    button.remove();
+                } else {
+                    button.style.top = (buttonTop + 8) + 'px'; // უფრო სწრაფად ჩამოვარდეს
+                }
+            }, 20);
+
+            // ღილაკზე დაჭერისას ქულის მომატება ან თამაში ხელახლა დაწყება (ფეიკ ღილაკი)
+            button.addEventListener('click', () => {
+                if (isFake) {
+                    gameOver();
+                } else {
+                    score++;
+                    scoreElement.textContent = 'Score: ' + score;
+                    clearInterval(buttonInterval);
+                    button.remove();
+                }
+            });
+        }
+
+        // თამაში დასრულების ფუნქცია
+        function gameOver() {
+            isGameOver = true;
+            gameOverElement.style.display = 'block';
+        }
+
+        // თამაში თავიდან დაწყება
+        gameOverElement.addEventListener('click', () => {
+            isGameOver = false;
+            score = 0;
+            scoreElement.textContent = 'Score: 0';
+            gameOverElement.style.display = 'none';
+            gameInterval = setInterval(createFallingButton, 1000); // 1 წამში დაიწყოს ღილაკების ჩამოვარდნა
+        });
+
+        // ღილაკების ჩამოვარდნა ყოველ 1 წამში
+        gameInterval = setInterval(createFallingButton, 1000);
+    </script>
+</body>
+</html>
