@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Button Catch Game</title>
+    <title>ააგროვე ქულები</title>
     <style>
         body {
             display: flex;
@@ -71,8 +71,8 @@
 </head>
 <body>
     <div class="game-container">
-        <div id="score">Score: 0</div>
-        <div id="game-over">Game Over! Click to Restart</div>
+        <div id="score">ქულა: 0</div>
+        <div id="game-over">წააგე, თავიდან დაიწყე შენ ეს შეგიძლია</div>
     </div>
 
     <script>
@@ -91,7 +91,7 @@
             button.classList.add('button');
             button.style.left = Math.floor(Math.random() * 350) + 'px'; // შემთხვევითი პოზიცია
             const isFake = Math.random() < 0.2; // 20% შანსი რომ იყოს ფეიკი ღილაკი
-            button.textContent = isFake ? 'Fake!' : 'Catch Me!';
+            button.textContent = isFake ? 'არ დამიჭირო' : 'დამიჭირე';
 
             if (isFake) {
                 button.classList.add('fake-button');
@@ -117,7 +117,7 @@
                     gameOver();
                 } else {
                     score++;
-                    scoreElement.textContent = 'Score: ' + score;
+                    scoreElement.textContent = 'ქულა: ' + score;
                     clearInterval(buttonInterval);
                     button.remove();
                 }
@@ -134,7 +134,7 @@
         gameOverElement.addEventListener('click', () => {
             isGameOver = false;
             score = 0;
-            scoreElement.textContent = 'Score: 0';
+            scoreElement.textContent = 'ქულა: 0';
             gameOverElement.style.display = 'none';
             gameInterval = setInterval(createFallingButton, 1000); // 1 წამში დაიწყოს ღილაკების ჩამოვარდნა
         });
@@ -142,5 +142,7 @@
         // ღილაკების ჩამოვარდნა ყოველ 1 წამში
         gameInterval = setInterval(createFallingButton, 1000);
     </script>
+
+
 </body>
 </html>
