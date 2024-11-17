@@ -84,11 +84,11 @@
     <br>
     <a href="./index1.html"></a>
     <div class="game-container">
-        <div id="score">ქულა: 0</div>
-        <div id="game-over">წააგე, თავიდან დაიწყე შენ ეს შეგიძლია</div>
+        <div id="score">ქულა/sqore: 0</div>
+        <div id="game-over">წააგე, თავიდან დაიწყე შენ ეს შეგიძლია/your lose, start over,you can do it</div>
     </div>
-    <br>
-   
+    
+    
 
   
 
@@ -108,7 +108,7 @@
             button.classList.add('button');
             button.style.left = Math.floor(Math.random() * 350) + 'px'; // შემთხვევითი პოზიცია
             const isFake = Math.random() < 0.2; // 20% შანსი რომ იყოს ფეიკი ღილაკი
-            button.textContent = isFake ? 'არ დამიჭირო' : 'დამიჭირე';
+            button.textContent = isFake ? 'არ დამიჭირო/dont hold me' : 'დამიჭირე/catch me';
 
             if (isFake) {
                 button.classList.add('fake-button');
@@ -134,7 +134,7 @@
                     gameOver();
                 } else {
                     score++;
-                    scoreElement.textContent = 'ქულა: ' + score;
+                    scoreElement.textContent = 'ქულა/sqore: ' + score;
                     clearInterval(buttonInterval);
                     button.remove();
                 }
